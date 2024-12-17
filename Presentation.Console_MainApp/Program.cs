@@ -14,6 +14,9 @@ namespace Presentation.Console_MainApp
                 .AddSingleton<IContactRepository, ContactRepository>()
                 .AddSingleton<IContactService, ContactService>()
                 .BuildServiceProvider();
+
+
+
         }
     }
 }

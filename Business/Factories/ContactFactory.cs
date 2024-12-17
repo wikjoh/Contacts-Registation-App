@@ -6,6 +6,11 @@ namespace Business.Factories;
 
 public static class ContactFactory
 {
+    public static ContactDto Create()
+    {
+        return new ContactDto();
+    }
+
     public static ContactModel? Create(ContactDto contactForm)
     {
         try
