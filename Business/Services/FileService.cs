@@ -15,7 +15,7 @@ public abstract class FileService : IFileService
     }
 
 
-    public virtual string ReadFromFile()
+    public virtual string ReadJsonFromFile()
     {
         if (File.Exists(_filePath))
         {
@@ -25,7 +25,7 @@ public abstract class FileService : IFileService
         return null!;
     }
 
-    public virtual bool SaveToFile(string content)
+    public virtual bool SaveJsonToFile(string content)
     {
         try
         {

@@ -2,6 +2,6 @@
 
 public interface IFileService
 {
-    bool SaveToFile(string content);
-    string ReadFromFile();
+    bool SaveJsonToFile(string content);
+    string ReadJsonFromFile();
 }
