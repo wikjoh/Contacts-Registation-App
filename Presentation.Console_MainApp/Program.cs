@@ -12,6 +12,7 @@ namespace Presentation.Console_MainApp
             var serviceProvider = new ServiceCollection()
                 .AddSingleton<IContactFileService>(new ContactFileService("Data", "contacts.json"))
                 .AddSingleton<IContactRepository, ContactRepository>()
+                .AddSingleton<IContactService, ContactService>()
                 .BuildServiceProvider();
         }
     }
