@@ -1,4 +1,5 @@
 ﻿using Business.Interfaces;
+using Business.Repositories;
 using Business.Services;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -10,6 +11,7 @@ namespace Presentation.Console_MainApp
         {
             var serviceProvider = new ServiceCollection()
                 .AddSingleton<IContactFileService>(new ContactFileService("Data", "contacts.json"))
+                .AddSingleton<IContactRepository, ContactRepository>()
                 .BuildServiceProvider();
         }
     }
