@@ -9,7 +9,7 @@ namespace Business.Services;
 public class ContactService(IContactRepository contactRepository) : IContactService
 {
     private readonly IContactRepository _contactRepository = contactRepository;
-    private List<ContactModel> _contacts = [];
+    private List<ContactModel> _contacts = contactRepository.ReadFromFile() ?? [];
 
 
     public bool CreateContact(ContactDto contactForm)
