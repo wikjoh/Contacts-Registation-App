@@ -12,7 +12,12 @@ public class ContactRepository(IContactFileService contactFileService) : IContac
 
     public string Serialize(List<ContactModel> contacts)
     {
-        var json = JsonSerializer.Serialize(contacts);
+        var options = new JsonSerializerOptions
+        {
+            WriteIndented = true,
+        };
+
+        var json = JsonSerializer.Serialize(contacts, options);
         return json;
     }
 
