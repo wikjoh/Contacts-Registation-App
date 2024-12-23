@@ -38,7 +38,7 @@ public class ContactService(IContactRepository contactRepository) : IContactServ
 
     public IEnumerable<ContactModel> GetContacts()
     {
-        _contacts = _contactRepository.ReadFromFile()!;
+        _contacts = _contactRepository.ReadFromFile() ?? [];
         return _contacts;
     }
 }

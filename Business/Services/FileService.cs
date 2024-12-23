@@ -15,7 +15,7 @@ public abstract class FileService : IFileService
     }
 
 
-    public virtual string ReadJsonFromFile()
+    public virtual string? ReadJsonFromFile()
     {
         if (File.Exists(_filePath))
         {

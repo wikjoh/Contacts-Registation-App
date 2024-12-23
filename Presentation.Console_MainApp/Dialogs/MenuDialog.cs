@@ -1,5 +1,7 @@
 ﻿using Business.Factories;
+using Business.Helpers;
 using Business.Interfaces;
+using System.ComponentModel.DataAnnotations;
 
 namespace Presentation.Console_MainApp.Dialogs;
 
@@ -43,10 +45,15 @@ public class MenuDialog (IContactService contactService)
     private void ListAllContacts()
     {
         var contacts = _contactService.GetContacts();
-        foreach (var contact in contacts)
+        if (contacts.Count() > 0)
         {
-            Console.WriteLine($"{contact.Id} {contact.FirstName} {contact.LastName} {contact.Email} {contact.PhoneNumber} {contact.StreetAddress} {contact.PostalCode} {contact.City} {contact.Guid}");
+            foreach (var contact in contacts)
+            {
+                Console.WriteLine($"{contact.Id} {contact.FirstName} {contact.LastName} {contact.Email} {contact.PhoneNumber} {contact.StreetAddress} {contact.PostalCode} {contact.City} {contact.Guid}");
+            }
         }
+        else Console.WriteLine("Contacts list is empty.");
+        
     }
 
 
@@ -55,39 +62,48 @@ public class MenuDialog (IContactService contactService)
         var newContact = ContactFactory.Create();
 
         Console.WriteLine("##### ADD NEW CONTACT #####");
-        newContact.FirstName = PromptInput<string>("Enter first name: ");
-        newContact.LastName = PromptInput<string>("Enter last name: ");
-        newContact.Email = PromptInput<string>("Enter email address: ");
-        newContact.PhoneNumber = PromptInput<string>("Enter phone number: ");
-        newContact.StreetAddress = PromptInput<string>("Enter street address: ");
-        newContact.PostalCode = PromptInput<int>("Enter postal code: ");
-        newContact.City = PromptInput<string>("Enter city: ");
+        newContact.FirstName = PromptInput<string>("Enter first name: ", nameof(newContact.FirstName));
+        newContact.LastName = PromptInput<string>("Enter last name: ", nameof(newContact.LastName));
+        newContact.Email = PromptInput<string>("Enter email address: ", nameof(newContact.Email));
+        newContact.PhoneNumber = PromptInput<string>("Enter phone number: ", nameof(newContact.PhoneNumber));
+        newContact.StreetAddress = PromptInput<string>("Enter street address: ", nameof(newContact.StreetAddress));
+        newContact.PostalCode = PromptInput<int>("Enter postal code: ", nameof(newContact.PostalCode));
+        newContact.City = PromptInput<string>("Enter city: ", nameof(newContact.City));
 
         _contactService.CreateContact(newContact);
     }
 
 
-    private T PromptInput<T>(string prompt)
+    private T PromptInput<T>(string prompt, string propertyName)
     {
         while (true)
         {
             Console.Write(prompt);
-            string input = Console.ReadLine()!;
+            string input = Console.ReadLine() ?? String.Empty;
+            var parseResult = InputParser.Parse<T>(input);
 
-            if (typeof(T) == typeof(int))
+
+            if (parseResult.ParseSuccess)
             {
-                if (int.TryParse(input, out int intInput))
+                var parsedInput = parseResult.Parsed;
+                var inputValidationResults = InputValidator.Validate<T>(parsedInput!, propertyName);
+
+                if (inputValidationResults == null)
                 {
-                    return (T)(object)intInput;
+                    return (T)(object)parsedInput!;
                 }
                 else
                 {
-                    Console.WriteLine("Must be a number. Try again.");
+                    foreach (var result in inputValidationResults)
+                    {
+                        Console.WriteLine(result.ErrorMessage);
+                    }
+                    Console.WriteLine("Please try again.");
                 }
             }
-            else
+            else if (!parseResult.ParseSuccess && typeof(T) == typeof(int))
             {
-                return (T)(object)input;
+                Console.WriteLine("Invalid input. Must be a number.");
             }
         }
     }

@@ -23,16 +23,21 @@ public class ContactRepository(IContactFileService contactFileService) : IContac
 
     public List<ContactModel>? Deserialize(string json)
     {
-        var contacts = JsonSerializer.Deserialize<List<ContactModel>>(json);
-        return contacts;
+            var contacts = JsonSerializer.Deserialize<List<ContactModel>>(json);
+            return contacts;
     }
 
     public List<ContactModel>? ReadFromFile()
     {
         var json = _contactFileService.ReadJsonFromFile();
-        var contacts = Deserialize(json);
 
-        return contacts;
+        if (json != null)
+        {
+            var contacts = Deserialize(json);
+            return contacts;
+        }
+        else
+            return null!;
     }
 
     public bool SaveToFile(List<ContactModel> contacts)
