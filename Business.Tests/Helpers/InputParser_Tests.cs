@@ -31,4 +31,33 @@ public class InputParser_Tests
         Assert.Equal(expectedParsed, parsed);
         Assert.Equal(expectedSuccess, success);
     }
+
+
+    [Fact]
+    public void Parse_ReturnsDefaultAndFalse_WhenGenericTypeIsUnsupported()
+    {
+        // arrange
+        string inputDecimal = "123.456m";
+        string inputFloat = "123.4f";
+        string inputBool = "true";
+        string inputLong = "1234567890L";
+        string inputDouble = "9.99D";
+        string inputChar = "A";
+
+        // act
+        var resultDecimal = InputParser.Parse<decimal>(inputDecimal);
+        var resultFloat = InputParser.Parse<float>(inputFloat);
+        var resultBool = InputParser.Parse<bool>(inputBool);
+        var resultLong = InputParser.Parse<long>(inputLong);
+        var resultDouble = InputParser.Parse<double>(inputDouble);
+        var resultChar = InputParser.Parse<char>(inputChar);
+
+        // assert
+        Assert.True(resultDecimal.Parsed == default(decimal) && !resultDecimal.ParseSuccess);
+        Assert.True(resultFloat.Parsed == default(float) && !resultFloat.ParseSuccess);
+        Assert.True(resultBool.Parsed == default(bool) && !resultBool.ParseSuccess);
+        Assert.True(resultLong.Parsed == default(long) && !resultLong.ParseSuccess);
+        Assert.True(resultDouble.Parsed == default(double) && !resultDouble.ParseSuccess);
+        Assert.True(resultChar.Parsed == default(char) && !resultChar.ParseSuccess);
+    }
 }
