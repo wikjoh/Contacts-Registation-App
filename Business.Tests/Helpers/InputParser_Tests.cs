@@ -8,7 +8,7 @@ public class InputParser_Tests
     [InlineData("12345", 12345, true)] // valid int
     [InlineData("abc", 0, false)] // invalid int
     [InlineData("", 0, false)] // empty string
-    public void Parse_ReturnsInputAsInt_WhenGenericTypeIsInt(string input, int expectedParsed, bool expectedSuccess)
+    public void Parse_ShouldReturnInputAsInt_WhenGenericTypeIsInt(string input, int expectedParsed, bool expectedSuccess)
     {
         // act
         var (parsed, success) = InputParser.Parse<int>(input);
@@ -22,7 +22,7 @@ public class InputParser_Tests
     [Theory]
     [InlineData("Test", "Test", true)] // valid string
     [InlineData("", "", true)] // empty string
-    public void Parse_ReturnsInputAsString_WhenGenericTypeIsString(string input, string expectedParsed, bool expectedSuccess)
+    public void Parse_ShouldReturnInputAsString_WhenGenericTypeIsString(string input, string expectedParsed, bool expectedSuccess)
     {
         // act
         var (parsed, success) = InputParser.Parse<string>(input);
@@ -34,7 +34,7 @@ public class InputParser_Tests
 
 
     [Fact]
-    public void Parse_ReturnsDefaultAndFalse_WhenGenericTypeIsUnsupported()
+    public void Parse_ShouldReturnDefaultAndFalse_WhenGenericTypeIsUnsupported()
     {
         // arrange
         string inputDecimal = "123.456m";
