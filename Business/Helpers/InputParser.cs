@@ -19,10 +19,15 @@ public static class InputParser
                 return (default(T), parseSuccess);
             }
         }
-        else
+        else if (typeof(T) == typeof(string))
         {
             parseSuccess = true;
             return ((T)(object)input, parseSuccess);
+        }
+        else
+        {
+            parseSuccess = false;
+            return (default(T), parseSuccess);
         }
     }
 }
