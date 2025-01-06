@@ -1,4 +1,8 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using Business.Interfaces;
+using Business.Repositories;
+using Business.Services;
+using Microsoft.Extensions.Logging;
+using Presentation.Maui.ViewModels;
 
 namespace Presentation.Maui;
 public static class MauiProgram
@@ -14,8 +18,17 @@ public static class MauiProgram
                 fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
             });
 
+        builder.Services.AddSingleton<IContactFileService>(new ContactFileService("Data", "contacts.json"));
+        builder.Services.AddSingleton<IContactRepository, ContactRepository>();
+        builder.Services.AddSingleton<IContactService, ContactService>();
+        builder.Services.AddSingleton<MainViewModel>();
+        builder.Services.AddSingleton<MainPage>();
+
+
+
+
 #if DEBUG
-		builder.Logging.AddDebug();
+        builder.Logging.AddDebug();
 #endif
 
         return builder.Build();
