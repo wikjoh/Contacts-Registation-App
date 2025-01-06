@@ -4,6 +4,7 @@ using Business.Models;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 
 namespace Presentation.Maui.ViewModels;
 
@@ -24,7 +25,7 @@ public partial class MainViewModel : ObservableObject
     private ObservableCollection<ContactModel> _contactList = new();
 
     [RelayCommand]
-    public void AddContactToList()
+    public void AddContact()
     {
         if (ContactForm != null && !string.IsNullOrWhiteSpace(ContactForm.FirstName))
         {
@@ -34,6 +35,19 @@ public partial class MainViewModel : ObservableObject
                 UpdateContactList();
                 ContactForm = new();
             }
+        }
+    }
+
+    [RelayCommand]
+    public void DeleteContact(ContactModel contact)
+    {
+        if (_contactService.DeleteContact(contact.Id))
+        {
+            UpdateContactList();
+        }
+        else
+        {
+            Debug.WriteLine("Failed to delete contact.");
         }
     }
 

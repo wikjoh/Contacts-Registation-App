@@ -33,7 +33,7 @@
                 <Label Text="City" />
                 <Entry Text="{Binding ContactForm.City}" />
 
-                <Button Command="{Binding AddContactToListCommand}" Text="Add to list" Margin="0,20,0,20" Padding="0,10" />
+                <Button Command="{Binding AddContactCommand}" Text="Add to list" Margin="0,20,0,20" Padding="0,10" />
             </VerticalStackLayout>
 
             <CollectionView Grid.Row="1" ItemsSource="{Binding ContactList}">
@@ -63,8 +63,15 @@
                             </VerticalStackLayout>
 
                             <Grid Grid.Column="1" RowDefinitions="*" ColumnDefinitions="*">
-                                <Button Text="📝" ToolTipProperties.Text="Edit Contact" VerticalOptions="Start" />
-                                <Button Text="❌" ToolTipProperties.Text="Delete Contact" VerticalOptions="End" />
+                                <Button Text="📝"
+                                        ToolTipProperties.Text="Edit Contact"
+                                        VerticalOptions="Start" />
+                                
+                                <Button CommandParameter="{Binding .}"
+                                        Command="{Binding Path=DeleteContactCommand, Source={RelativeSource AncestorType={x:Type viewmodels:MainViewModel}}}"
+                                        Text="❌"
+                                        ToolTipProperties.Text="Delete Contact"
+                                        VerticalOptions="End" />
                             </Grid>
 
                         </Grid>
