@@ -9,6 +9,6 @@ public class ContactModel
     public string Email { get; set; } = null!;
     public string PhoneNumber { get; set; } = null!;
     public string StreetAddress { get; set; } = null!;
-    public int PostalCode { get; set; }
+    public int? PostalCode { get; set; } = null!;
     public string City { get; set; } = null!;
 }

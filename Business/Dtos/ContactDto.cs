@@ -20,7 +20,7 @@ public class ContactDto
     public string StreetAddress { get; set; } = null!;
 
     [RegularExpression(@"^\d{5}$", ErrorMessage = "Postal code must be 5 digits")]
-    public int PostalCode { get; set; }
+    public int? PostalCode { get; set; } = null!;
 
     [MinLength(2, ErrorMessage = "City name must be at least 2 characters")]
     public string City { get; set; } = null!;
