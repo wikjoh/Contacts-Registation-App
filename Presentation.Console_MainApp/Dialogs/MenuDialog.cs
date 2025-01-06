@@ -14,9 +14,11 @@ public class MenuDialog (IContactService contactService)
     {
         while (keepRunning)
         {
+            Console.Clear();
             Console.WriteLine("##### MAIN MENU #####");
             Console.WriteLine("1. List all contacts");
             Console.WriteLine("2. Create new contact");
+            Console.WriteLine("3. Delete contact");
             Console.WriteLine();
             Console.Write("Enter option: ");
 
@@ -27,11 +29,15 @@ public class MenuDialog (IContactService contactService)
             switch (option)
             {
                 case "1":
-                    ListAllContacts();
+                    ListAllContactsMenu();
                     break;
 
                 case "2":
-                    CreateContact();
+                    CreateContactMenu();
+                    break;
+
+                case "3":
+                    DeleteContactMenu();
                     break;
 
                 default:
@@ -53,14 +59,24 @@ public class MenuDialog (IContactService contactService)
             }
         }
         else Console.WriteLine("Contacts list is empty.");
-        
     }
 
+    private void ListAllContactsMenu()
+    {
+        Console.Clear();
+        Console.WriteLine("##### LIST ALL CONTACTS #####");
+        ListAllContacts();
 
-    private void CreateContact()
+        Console.WriteLine();
+        Console.WriteLine("Press the any key to return.");
+        Console.ReadKey();
+    }
+
+    private void CreateContactMenu()
     {
         var newContact = ContactFactory.Create();
 
+        Console.Clear();
         Console.WriteLine("##### ADD NEW CONTACT #####");
         newContact.FirstName = PromptInput<string>("Enter first name: ", nameof(newContact.FirstName));
         newContact.LastName = PromptInput<string>("Enter last name: ", nameof(newContact.LastName));
@@ -104,6 +120,39 @@ public class MenuDialog (IContactService contactService)
             else if (!parseResult.ParseSuccess && typeof(T) == typeof(int))
             {
                 Console.WriteLine("Invalid input. Must be a number.");
+            }
+        }
+    }
+
+    private void DeleteContactMenu()
+    {
+        while (true)
+        {
+            Console.Clear();
+            Console.WriteLine("##### DELETE CONTACT #####");
+            ListAllContacts();
+            Console.WriteLine();
+
+            Console.Write("Enter id of contact to delete, or leave empty to return: ");
+            string input = Console.ReadLine() ?? string.Empty;
+            if (input == string.Empty) return;
+
+            var parseResult = InputParser.Parse<int>(input);
+            if (parseResult.ParseSuccess)
+            {
+                int idToDelete = parseResult.Parsed;
+                if (_contactService.DeleteContact(idToDelete))
+                {
+                    Console.WriteLine();
+                    Console.WriteLine("Contact deleted successfully.");
+                    Console.WriteLine("Press enter to return to main menu.");
+                    Console.ReadKey();
+                    return;
+                }
+            }
+            else
+            {
+                Console.WriteLine("Invalid input. Try again.");
             }
         }
     }

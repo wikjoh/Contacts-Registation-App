@@ -7,4 +7,5 @@ public interface IContactService
 {
     bool CreateContact(ContactDto contactForm);
     IEnumerable<ContactModel> GetContacts();
+    bool DeleteContact(int contactId);
 }

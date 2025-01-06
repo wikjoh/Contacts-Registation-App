@@ -41,4 +41,17 @@ public class ContactService(IContactRepository contactRepository) : IContactServ
         _contacts = _contactRepository.ReadFromFile() ?? [];
         return _contacts;
     }
+
+    public bool DeleteContact(int contactId)
+    {
+        var contactToDelete = _contacts.Find(x => x.Id == contactId);
+        if (contactToDelete != null)
+        {
+            _contacts.Remove(contactToDelete);
+            _contactRepository.SaveToFile(_contacts);
+            return true;
+        }
+
+        return false;
+    }
 }
