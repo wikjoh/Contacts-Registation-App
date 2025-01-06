@@ -1,7 +1,6 @@
 ﻿using Business.Factories;
 using Business.Helpers;
 using Business.Interfaces;
-using System.ComponentModel.DataAnnotations;
 
 namespace Presentation.Console_MainApp.Dialogs;
 
@@ -48,19 +47,6 @@ public class MenuDialog (IContactService contactService)
     }
 
 
-    private void ListAllContacts()
-    {
-        var contacts = _contactService.GetContacts();
-        if (contacts.Count() > 0)
-        {
-            foreach (var contact in contacts)
-            {
-                Console.WriteLine($"{contact.Id} {contact.FirstName} {contact.LastName} {contact.Email} {contact.PhoneNumber} {contact.StreetAddress} {contact.PostalCode} {contact.City} {contact.Guid}");
-            }
-        }
-        else Console.WriteLine("Contacts list is empty.");
-    }
-
     private void ListAllContactsMenu()
     {
         Console.Clear();
@@ -71,6 +57,7 @@ public class MenuDialog (IContactService contactService)
         Console.WriteLine("Press the any key to return.");
         Console.ReadKey();
     }
+
 
     private void CreateContactMenu()
     {
@@ -87,6 +74,53 @@ public class MenuDialog (IContactService contactService)
         newContact.City = PromptInput<string>("Enter city: ", nameof(newContact.City));
 
         _contactService.CreateContact(newContact);
+    }
+
+
+    private void DeleteContactMenu()
+    {
+        while (true)
+        {
+            Console.Clear();
+            Console.WriteLine("##### DELETE CONTACT #####");
+            ListAllContacts();
+            Console.WriteLine();
+
+            Console.Write("Enter id of contact to delete, or leave empty to return: ");
+            string input = Console.ReadLine() ?? string.Empty;
+            if (input == string.Empty) return;
+
+            var parseResult = InputParser.Parse<int>(input);
+            if (parseResult.ParseSuccess)
+            {
+                int idToDelete = parseResult.Parsed;
+                if (_contactService.DeleteContact(idToDelete))
+                {
+                    Console.WriteLine();
+                    Console.WriteLine("Contact deleted successfully.");
+                    Console.WriteLine("Press enter to return to main menu.");
+                    Console.ReadKey();
+                    return;
+                }
+            }
+            else
+            {
+                Console.WriteLine("Invalid input. Try again.");
+            }
+        }
+    }
+
+    private void ListAllContacts()
+    {
+        var contacts = _contactService.GetContacts();
+        if (contacts.Count() > 0)
+        {
+            foreach (var contact in contacts)
+            {
+                Console.WriteLine($"{contact.Id} {contact.FirstName} {contact.LastName} {contact.Email} {contact.PhoneNumber} {contact.StreetAddress} {contact.PostalCode} {contact.City} {contact.Guid}");
+            }
+        }
+        else Console.WriteLine("Contacts list is empty.");
     }
 
 
@@ -124,36 +158,4 @@ public class MenuDialog (IContactService contactService)
         }
     }
 
-    private void DeleteContactMenu()
-    {
-        while (true)
-        {
-            Console.Clear();
-            Console.WriteLine("##### DELETE CONTACT #####");
-            ListAllContacts();
-            Console.WriteLine();
-
-            Console.Write("Enter id of contact to delete, or leave empty to return: ");
-            string input = Console.ReadLine() ?? string.Empty;
-            if (input == string.Empty) return;
-
-            var parseResult = InputParser.Parse<int>(input);
-            if (parseResult.ParseSuccess)
-            {
-                int idToDelete = parseResult.Parsed;
-                if (_contactService.DeleteContact(idToDelete))
-                {
-                    Console.WriteLine();
-                    Console.WriteLine("Contact deleted successfully.");
-                    Console.WriteLine("Press enter to return to main menu.");
-                    Console.ReadKey();
-                    return;
-                }
-            }
-            else
-            {
-                Console.WriteLine("Invalid input. Try again.");
-            }
-        }
-    }
 }

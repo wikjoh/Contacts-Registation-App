@@ -12,28 +12,28 @@
         <Grid RowDefinitions="auto, *" Margin="20">
 
             <VerticalStackLayout Grid.Row="0">
-                <Label Text="First Name" />
+                <Label Text="First Name" Margin="0, 0, 0, 5" />
                 <Entry Text="{Binding ContactForm.FirstName}" />
 
-                <Label Text="Last Name" />
+                <Label Text="Last Name" Margin="0, 20, 0, 5" />
                 <Entry Text="{Binding ContactForm.LastName}" />
 
-                <Label Text="Email" />
+                <Label Text="Email" Margin="0, 20, 0, 5" />
                 <Entry Text="{Binding ContactForm.Email}" />
 
-                <Label Text="Phonenumber" />
+                <Label Text="Phonenumber" Margin="0, 20, 0, 5" />
                 <Entry Text="{Binding ContactForm.PhoneNumber}" />
 
-                <Label Text="Street Address" />
+                <Label Text="Street Address" Margin="0, 20, 0, 5" />
                 <Entry Text="{Binding ContactForm.StreetAddress}" />
 
-                <Label Text="Postal Code" />
+                <Label Text="Postal Code" Margin="0, 20, 0, 5" />
                 <Entry Text="{Binding ContactForm.PostalCode}" />
 
-                <Label Text="City" />
+                <Label Text="City" Margin="0, 20, 0, 5" />
                 <Entry Text="{Binding ContactForm.City}" />
 
-                <Button Command="{Binding AddContactCommand}" Text="Add to list" Margin="0,20,0,20" Padding="0,10" />
+                <Button Command="{Binding AddContactCommand}" Text="Add to list" Margin="0,40,0,20" Padding="0,10" />
             </VerticalStackLayout>
 
             <CollectionView Grid.Row="1" ItemsSource="{Binding ContactList}">
