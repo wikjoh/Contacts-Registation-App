@@ -18,7 +18,7 @@ public static class MauiProgram
                 fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
             });
 
-        builder.Services.AddSingleton<IContactFileService>(new ContactFileService("Data", "contacts.json"));
+        builder.Services.AddSingleton<IContactFileService>(new ContactFileService(FileSystem.AppDataDirectory, "contacts.json"));
         builder.Services.AddSingleton<IContactRepository, ContactRepository>();
         builder.Services.AddSingleton<IContactService, ContactService>();
         builder.Services.AddSingleton<MainViewModel>();
