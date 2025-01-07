@@ -3,7 +3,6 @@ using Business.Repositories;
 using Business.Services;
 using Microsoft.Extensions.Logging;
 using Presentation.Maui.ViewModels;
-using Syncfusion.Maui.Toolkit.Hosting;
 
 namespace Presentation.Maui;
 public static class MauiProgram
@@ -12,7 +11,6 @@ public static class MauiProgram
     {
         var builder = MauiApp.CreateBuilder();
         builder
-            .ConfigureSyncfusionToolkit()
             .UseMauiApp<App>()
             .ConfigureFonts(fonts =>
             {
