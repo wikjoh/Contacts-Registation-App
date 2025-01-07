@@ -5,33 +5,57 @@
              xmlns:models="clr-namespace:Business.Models;assembly=Business"
              xmlns:viewmodels="clr-namespace:Presentation.Maui.ViewModels"
              x:DataType="{x:Type viewmodels:MainViewModel}"
+             xmlns:inputLayout="clr-namespace:Syncfusion.Maui.Toolkit.TextInputLayout;assembly=Syncfusion.Maui.Toolkit"
              
-             x:Class="Presentation.Maui.MainPage">
+
+
+
+
+    x:Class="Presentation.Maui.MainPage">
+
+    
 
     <ScrollView>
-        <Grid RowDefinitions="auto, *" Margin="20">
+        <Grid RowDefinitions="auto, *" Margin="30">
 
             <VerticalStackLayout Grid.Row="0">
-                <Label Text="First Name" Margin="0, 0, 0, 5" />
-                <Entry Text="{Binding ContactForm.FirstName}" />
 
-                <Label Text="Last Name" Margin="0, 20, 0, 5" />
-                <Entry Text="{Binding ContactForm.LastName}" />
+                <inputLayout:SfTextInputLayout  Hint="Firstname"
+                                                ContainerType="Outlined">
+                    <Entry Text="{Binding ContactForm.FirstName}" />
+                </inputLayout:SfTextInputLayout>
 
-                <Label Text="Email" Margin="0, 20, 0, 5" />
-                <Entry Text="{Binding ContactForm.Email}" />
+                <inputLayout:SfTextInputLayout  Hint="Lastname"
+                                ContainerType="Outlined">
+                    <Entry Text="{Binding ContactForm.LastName}" />
+                </inputLayout:SfTextInputLayout>
 
-                <Label Text="Phonenumber" Margin="0, 20, 0, 5" />
-                <Entry Text="{Binding ContactForm.PhoneNumber}" />
 
-                <Label Text="Street Address" Margin="0, 20, 0, 5" />
-                <Entry Text="{Binding ContactForm.StreetAddress}" />
 
-                <Label Text="Postal Code" Margin="0, 20, 0, 5" />
-                <Entry Text="{Binding ContactForm.PostalCode}" />
+                <inputLayout:SfTextInputLayout  Hint="Email"
+                                ContainerType="Outlined">
+                    <Entry Text="{Binding ContactForm.Email}" />
+                </inputLayout:SfTextInputLayout>
 
-                <Label Text="City" Margin="0, 20, 0, 5" />
-                <Entry Text="{Binding ContactForm.City}" />
+                <inputLayout:SfTextInputLayout  Hint="Phone number"
+                                ContainerType="Outlined">
+                    <Entry Text="{Binding ContactForm.PhoneNumber}" />
+                </inputLayout:SfTextInputLayout>
+
+                <inputLayout:SfTextInputLayout  Hint="Street address"
+                                ContainerType="Outlined">
+                    <Entry Text="{Binding ContactForm.StreetAddress}" />
+                </inputLayout:SfTextInputLayout>
+
+                <inputLayout:SfTextInputLayout  Hint="Postal code"
+                                ContainerType="Outlined">
+                    <Entry Text="{Binding ContactForm.PostalCode}" />
+                </inputLayout:SfTextInputLayout>
+
+                <inputLayout:SfTextInputLayout  Hint="City"
+                                ContainerType="Outlined">
+                    <Entry Text="{Binding ContactForm.City}" />
+                </inputLayout:SfTextInputLayout>
 
                 <Button Command="{Binding AddContactCommand}" Text="Add to list" Margin="0,40,0,20" Padding="0,10" />
             </VerticalStackLayout>
