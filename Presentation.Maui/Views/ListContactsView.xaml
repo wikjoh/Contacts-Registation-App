@@ -9,7 +9,7 @@
              x:Class="Presentation.Maui.Views.ListContactsView">
 
 
-    <CollectionView ItemsSource="{Binding ContactList}">
+    <CollectionView ItemsSource="{Binding ContactList}" Margin="20">
         <CollectionView.ItemTemplate>
             <DataTemplate x:DataType="{x:Type models:ContactModel}">
                 <Grid ColumnDefinitions="*, auto" Padding="0, 0, 0, 20" >
