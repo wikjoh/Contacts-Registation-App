@@ -11,6 +11,13 @@ public class ContactService(IContactRepository contactRepository) : IContactServ
     private readonly IContactRepository _contactRepository = contactRepository;
     private List<ContactModel> _contacts = contactRepository.ReadFromFile() ?? [];
 
+    public event EventHandler? ContactsUpdated;
+
+    public IEnumerable<ContactModel> GetContacts()
+    {
+        _contacts = _contactRepository.ReadFromFile() ?? [];
+        return _contacts;
+    }
 
     public bool CreateContact(ContactDto contactForm)
     {
@@ -24,6 +31,7 @@ public class ContactService(IContactRepository contactRepository) : IContactServ
 
                 _contacts.Add(contactModel);
                 _contactRepository.SaveToFile(_contacts);
+                ContactsUpdated?.Invoke(this, EventArgs.Empty);
                 return true;
             }
 
@@ -36,11 +44,8 @@ public class ContactService(IContactRepository contactRepository) : IContactServ
         }
     }
 
-    public IEnumerable<ContactModel> GetContacts()
-    {
-        _contacts = _contactRepository.ReadFromFile() ?? [];
-        return _contacts;
-    }
+
+
 
     public bool DeleteContact(int contactId)
     {
@@ -49,6 +54,20 @@ public class ContactService(IContactRepository contactRepository) : IContactServ
         {
             _contacts.Remove(contactToDelete);
             _contactRepository.SaveToFile(_contacts);
+            ContactsUpdated?.Invoke(this, EventArgs.Empty);
+            return true;
+        }
+
+        return false;
+    }
+    public bool UpdateContact(ContactModel contact)
+    {
+        var contactToUpdate = _contacts.Find(x => x.Id == contact.Id);
+        if (contactToUpdate != null)
+        {
+            contactToUpdate = contact;
+            _contactRepository.SaveToFile(_contacts);
+            ContactsUpdated?.Invoke(this, EventArgs.Empty);
             return true;
         }
 

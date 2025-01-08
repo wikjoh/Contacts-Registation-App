@@ -5,7 +5,9 @@ namespace Business.Interfaces;
 
 public interface IContactService
 {
-    bool CreateContact(ContactDto contactForm);
+    event EventHandler? ContactsUpdated;
     IEnumerable<ContactModel> GetContacts();
+    bool CreateContact(ContactDto contactForm);
     bool DeleteContact(int contactId);
+    bool UpdateContact(ContactModel contact);
 }

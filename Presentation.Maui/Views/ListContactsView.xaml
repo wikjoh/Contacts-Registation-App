@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             
+             xmlns:viewmodels="clr-namespace:Presentation.Maui.ViewModels"
+             xmlns:models="clr-namespace:Business.Models;assembly=Business"
+             x:DataType="{x:Type viewmodels:ListContactsViewModel}"
+             
+             x:Class="Presentation.Maui.Views.ListContactsView">
+
+
+    <CollectionView ItemsSource="{Binding ContactList}">
+        <CollectionView.ItemTemplate>
+            <DataTemplate x:DataType="{x:Type models:ContactModel}">
+                <Grid ColumnDefinitions="*, auto" Padding="0, 0, 0, 20" >
+                    <VerticalStackLayout Grid.Column="0">
+                        <Label FontSize="18">
+                            <Label.Text>
+                                <MultiBinding StringFormat="{}{0} {1}">
+                                    <Binding Path="FirstName" />
+                                    <Binding Path="LastName" />
+                                </MultiBinding>
+                            </Label.Text>
+                        </Label>
+                        <Label Text="{Binding PhoneNumber}" FontSize="15" Margin="0, 0, 20, 0"/>
+                        <Label Text="{Binding Email}" FontSize="15"/>
+                        <Label Text="{Binding StreetAddress}" FontSize="13"/>
+                        <Label FontSize="13">
+                            <Label.Text>
+                                <MultiBinding StringFormat="{}{0} {1}">
+                                    <Binding Path="PostalCode" />
+                                    <Binding Path="City" />
+                                </MultiBinding>
+                            </Label.Text>
+                        </Label>
+                    </VerticalStackLayout>
+
+                    <Grid Grid.Column="1" RowDefinitions="*" ColumnDefinitions="*">
+                        <Button
+                            CommandParameter="{Binding .}"
+                            Command="{Binding Path=NavigateToEditCommand, Source={RelativeSource AncestorType={x:Type viewmodels:ListContactsViewModel}}}"
+                            Text="📝"
+                            ToolTipProperties.Text="Edit Contact"
+                            VerticalOptions="Start" />
+
+                        <Button
+                            CommandParameter="{Binding .}"
+                            Command="{Binding Path=DeleteContactCommand, Source={RelativeSource AncestorType={x:Type viewmodels:ListContactsViewModel}}}"
+                            Text="❌"
+                            ToolTipProperties.Text="Delete Contact"
+                            VerticalOptions="End" />
+                    </Grid>
+
+                </Grid>
+            </DataTemplate>
+        </CollectionView.ItemTemplate>
+    </CollectionView>
+</ContentPage>

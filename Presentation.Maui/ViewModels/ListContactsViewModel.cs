@@ -1,5 +1,4 @@
-﻿using Business.Dtos;
-using Business.Interfaces;
+﻿using Business.Interfaces;
 using Business.Models;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
@@ -8,40 +7,43 @@ using System.Diagnostics;
 
 namespace Presentation.Maui.ViewModels;
 
-public partial class MainViewModel : ObservableObject
+public partial class ListContactsViewModel : ObservableObject
 {
     private readonly IContactService _contactService;
 
-    public MainViewModel(IContactService contactService)
+    public ListContactsViewModel(IContactService contactService)
     {
         _contactService = contactService;
         UpdateContactList();
-    }
 
-    [ObservableProperty]
-    private ContactDto _contactForm = new();
+        _contactService.ContactsUpdated += (sender, e) =>
+        {
+            UpdateContactList();
+        };
+    }
 
     [ObservableProperty]
     private ObservableCollection<ContactModel> _contactList = new();
 
+
     [RelayCommand]
-    public void AddContact()
+    private async Task NavigateToEdit(ContactModel contact)
     {
-        if (ContactForm != null && !string.IsNullOrWhiteSpace(ContactForm.FirstName))
+        var parameters = new ShellNavigationQueryParameters
         {
-            bool result = _contactService.CreateContact(ContactForm);
-            if (result)
-            {
-                UpdateContactList();
-                ContactForm = new();
-            }
-        }
+            { "Contact", contact }
+        };
+
+        await Shell.Current.GoToAsync("EditContactView", parameters);
     }
+
+
 
     [RelayCommand]
     public void DeleteContact(ContactModel contact)
     {
-        if (_contactService.DeleteContact(contact.Id))
+        bool deleteSuccess = _contactService.DeleteContact(contact.Id);
+        if (deleteSuccess)
         {
             UpdateContactList();
         }
@@ -50,8 +52,6 @@ public partial class MainViewModel : ObservableObject
             Debug.WriteLine("Failed to delete contact.");
         }
     }
-
-
 
     public void UpdateContactList()
     {
