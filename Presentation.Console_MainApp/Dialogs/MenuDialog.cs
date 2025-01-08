@@ -117,7 +117,7 @@ public class MenuDialog (IContactService contactService)
         {
             foreach (var contact in contacts)
             {
-                Console.WriteLine($"{contact.Id} {contact.FirstName} {contact.LastName} {contact.Email} {contact.PhoneNumber} {contact.StreetAddress} {contact.PostalCode} {contact.City} {contact.Guid}");
+                Console.WriteLine($"{contact.Id} {contact.FirstName} {contact.LastName} {contact.Email} {contact.PhoneNumber} {contact.StreetAddress} {contact.PostalCode} {contact.City}");
             }
         }
         else Console.WriteLine("Contacts list is empty.");

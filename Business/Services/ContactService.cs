@@ -13,9 +13,25 @@ public class ContactService(IContactRepository contactRepository) : IContactServ
 
     public event EventHandler? ContactsUpdated;
 
+    private readonly List<ContactModel> _sampleContactList = new()
+    {
+        new ContactModel
+        {
+            Id = 1,
+            Guid = Guid.NewGuid(),
+            FirstName = "Sample",
+            LastName = "Contact",
+            Email = "sample.contact@domain.com",
+            PhoneNumber = "0700123456",
+            StreetAddress = "Sample Street 1",
+            PostalCode = 12345,
+            City = "Sample City"
+        }
+    };
+
     public IEnumerable<ContactModel> GetContacts()
     {
-        _contacts = _contactRepository.ReadFromFile() ?? [];
+        _contacts = _contactRepository.ReadFromFile() ?? _sampleContactList;
         return _contacts;
     }
 
