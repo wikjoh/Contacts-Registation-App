@@ -15,11 +15,11 @@ public partial class AddContactViewModel : ObservableObject
     }
 
     [ObservableProperty]
-    private ContactDto _contactForm = new();
+    private ContactDto contactForm = new();
 
 
     [RelayCommand]
-    public async void AddContact()
+    public async Task AddContact()
     {
         if (ContactForm != null && !string.IsNullOrWhiteSpace(ContactForm.FirstName))
         {

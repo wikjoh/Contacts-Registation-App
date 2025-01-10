@@ -23,7 +23,7 @@ public partial class ListContactsViewModel : ObservableObject
     }
 
     [ObservableProperty]
-    private ObservableCollection<ContactModel> _contactList = new();
+    private ObservableCollection<ContactModel> contactList = new();
 
 
     [RelayCommand]

@@ -20,6 +20,7 @@ public class ContactService(IContactRepository contactRepository) : IContactServ
         return _contacts;
     }
 
+
     public List<ContactModel> GetSampleContacts() =>
     [
         new ContactModel
@@ -35,6 +36,7 @@ public class ContactService(IContactRepository contactRepository) : IContactServ
             City = "Sample City"
         }
     ];
+
 
     public bool CreateContact(ContactDto contactForm)
     {
@@ -62,32 +64,48 @@ public class ContactService(IContactRepository contactRepository) : IContactServ
     }
 
 
-
-
     public bool DeleteContact(int contactId)
     {
-        var contactToDelete = _contacts.Find(x => x.Id == contactId);
-        if (contactToDelete != null)
+        try
         {
-            _contacts.Remove(contactToDelete);
-            _contactRepository.SaveToFile(_contacts);
-            ContactsUpdated?.Invoke(this, EventArgs.Empty);
-            return true;
-        }
+            var contactToDelete = _contacts.Find(x => x.Id == contactId);
+            if (contactToDelete != null)
+            {
+                _contacts.Remove(contactToDelete);
+                _contactRepository.SaveToFile(_contacts);
+                ContactsUpdated?.Invoke(this, EventArgs.Empty);
+                return true;
+            }
 
-        return false;
+            return false;
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine($"Failed to delete contact. {ex.Message}");
+            return false;
+        }
     }
+
+
     public bool UpdateContact(ContactModel contact)
     {
-        var contactToUpdate = _contacts.Find(x => x.Id == contact.Id);
-        if (contactToUpdate != null)
+        try
         {
-            contactToUpdate = contact;
-            _contactRepository.SaveToFile(_contacts);
-            ContactsUpdated?.Invoke(this, EventArgs.Empty);
-            return true;
-        }
+            var contactIndexToUpdate = _contacts.FindIndex(x => x.Id == contact.Id);
+            if (contactIndexToUpdate != -1)
+            {
+                _contacts[contactIndexToUpdate] = contact;
+                _contactRepository.SaveToFile(_contacts);
+                ContactsUpdated?.Invoke(this, EventArgs.Empty);
+                return true;
+            }
 
-        return false;
+            return false;
+        }
+        catch (Exception ex )
+        {
+            Debug.WriteLine($"Failed to update contact. {ex.Message}");
+            return false;
+        }
     }
 }

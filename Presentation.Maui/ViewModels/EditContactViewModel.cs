@@ -16,10 +16,10 @@ public partial class EditContactViewModel : ObservableObject, IQueryAttributable
 
 
     [ObservableProperty]
-    private ContactModel _contactEdit = new();
+    private ContactModel contactEdit = new();
 
     [RelayCommand]
-    public async void UpdateContact()
+    public async Task UpdateContact()
     {
         _contactService.UpdateContact(ContactEdit);
         await Shell.Current.GoToAsync("//ListContactsView");
