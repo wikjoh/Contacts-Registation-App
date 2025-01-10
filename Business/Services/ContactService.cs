@@ -49,11 +49,14 @@ public class ContactService(IContactRepository contactRepository) : IContactServ
                 contactModel.Id = _contacts.Count() != 0 ? _contacts.Last().Id + 1 : 1;
 
                 _contacts.Add(contactModel);
-                _contactRepository.SaveToFile(_contacts);
-                ContactsUpdated?.Invoke(this, EventArgs.Empty);
-                return true;
+                if (_contactRepository.SaveToFile(_contacts))
+                {
+                    ContactsUpdated?.Invoke(this, EventArgs.Empty);
+                    return true;
+                }
             }
 
+            Debug.WriteLine($"Failed to create contact.");
             return false;
         }
         catch (Exception ex)
@@ -72,11 +75,14 @@ public class ContactService(IContactRepository contactRepository) : IContactServ
             if (contactToDelete != null)
             {
                 _contacts.Remove(contactToDelete);
-                _contactRepository.SaveToFile(_contacts);
-                ContactsUpdated?.Invoke(this, EventArgs.Empty);
-                return true;
+                if (_contactRepository.SaveToFile(_contacts))
+                {
+                    ContactsUpdated?.Invoke(this, EventArgs.Empty);
+                    return true;
+                }
             }
 
+            Debug.WriteLine($"Failed to delete contact.");
             return false;
         }
         catch (Exception ex)
@@ -95,11 +101,14 @@ public class ContactService(IContactRepository contactRepository) : IContactServ
             if (contactIndexToUpdate != -1)
             {
                 _contacts[contactIndexToUpdate] = contact;
-                _contactRepository.SaveToFile(_contacts);
-                ContactsUpdated?.Invoke(this, EventArgs.Empty);
-                return true;
+                if (_contactRepository.SaveToFile(_contacts))
+                {
+                    ContactsUpdated?.Invoke(this, EventArgs.Empty);
+                    return true;
+                }
             }
 
+            Debug.WriteLine($"Failed to update contact.");
             return false;
         }
         catch (Exception ex )
