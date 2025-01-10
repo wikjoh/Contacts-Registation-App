@@ -13,12 +13,19 @@ public class ContactService(IContactRepository contactRepository) : IContactServ
 
     public event EventHandler? ContactsUpdated;
 
-    private readonly List<ContactModel> _sampleContactList = new()
+
+    public IEnumerable<ContactModel> GetContacts()
     {
+        List<ContactModel> _contacts = _contactRepository.ReadFromFile() ?? GetSampleContacts();
+        return _contacts;
+    }
+
+    public List<ContactModel> GetSampleContacts() =>
+    [
         new ContactModel
         {
             Id = 1,
-            Guid = Guid.NewGuid(),
+            Guid = new Guid("4b25d304-d5de-475f-8445-a960402bae65"),
             FirstName = "Sample",
             LastName = "Contact",
             Email = "sample.contact@domain.com",
@@ -27,13 +34,7 @@ public class ContactService(IContactRepository contactRepository) : IContactServ
             PostalCode = 12345,
             City = "Sample City"
         }
-    };
-
-    public IEnumerable<ContactModel> GetContacts()
-    {
-        _contacts = _contactRepository.ReadFromFile() ?? _sampleContactList;
-        return _contacts;
-    }
+    ];
 
     public bool CreateContact(ContactDto contactForm)
     {
