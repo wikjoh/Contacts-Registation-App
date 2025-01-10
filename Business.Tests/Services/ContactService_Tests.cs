@@ -46,6 +46,7 @@ public class ContactService_Tests
     }
 
 
+    //GetContacts Tests
     [Fact]
     public void GetContacts_ShouldReturnListWithSampleContact_IfContactsFileDoesNotExist()
     {
@@ -125,6 +126,7 @@ public class ContactService_Tests
     }
 
 
+    // CreateContact Tests
     [Fact]
     public void CreateContact_ShouldReturnTrue_WhenContactIsCreatedSuccessfully()
     {
@@ -141,6 +143,8 @@ public class ContactService_Tests
             City = sampleContact.City
         };
 
+        _contactRepositoryMock.Setup(cr => cr.SaveToFile(It.IsAny<List<ContactModel>>())).Returns(true);
+
         // act
         var result = _contactService.CreateContact(sampleDto);
 
@@ -155,9 +159,46 @@ public class ContactService_Tests
         // arrange
 
         // act
-        var result = _contactService.CreateContact(null);
+        var result = _contactService.CreateContact(null!);
 
         // assert
         Assert.False(result);
     }
+
+
+    [Fact]
+    public void CreateContact_ShouldHandleException_AndReturnFalse()
+    {
+        // arrange
+        _contactRepositoryMock
+            .Setup(cr => cr.SaveToFile(It.IsAny<List<ContactModel>>()))
+            .Throws(new Exception("Mocktest"));
+
+        // act
+        var result = _contactService.CreateContact(new ContactDto());
+
+        // assert
+        Assert.False(result);
+    }
+
+
+    [Fact]
+    public void CreateContact_ShouldInvokeContactsUpdated()
+    {
+        // arrange
+        _contactRepositoryMock
+            .Setup(cr => cr.SaveToFile(It.IsAny<List<ContactModel>>()))
+            .Returns(true);
+
+        bool contactsUpdatedInvoked = false;
+        _contactService.ContactsUpdated += (sender, args) => contactsUpdatedInvoked = true;
+
+        // act
+        _contactService.CreateContact(new ContactDto());
+
+        // assert
+        Assert.True(contactsUpdatedInvoked);
+    }
+
+
 }
