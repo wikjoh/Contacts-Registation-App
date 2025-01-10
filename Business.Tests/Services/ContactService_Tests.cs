@@ -3,6 +3,7 @@ using Business.Interfaces;
 using Business.Models;
 using Business.Services;
 using Moq;
+using System.Diagnostics;
 using System.Text.Json;
 
 namespace Business.Tests.Services;
@@ -200,5 +201,21 @@ public class ContactService_Tests
         Assert.True(contactsUpdatedInvoked);
     }
 
+
+    // DeleteContact Tests
+    [Fact]
+    public void DeleteContact_ShouldReturnTrue_IfContactFoundAndDeleted()
+    {
+        // arrange
+        _contactService.CreateContact(new ContactDto()); // Adds contact to list with id 1
+        _contactRepositoryMock.Setup(cr => cr.SaveToFile(It.IsAny<List<ContactModel>>()))
+            .Returns(true); // Mock SaveToFile() in order for CreateContact() to work
+
+        // act
+        var result = _contactService.DeleteContact(1);
+
+        // assert
+        Assert.True(result);
+    }
 
 }
