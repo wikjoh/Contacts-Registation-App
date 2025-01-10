@@ -19,37 +19,10 @@ public class ContactService_Tests
         _contactService = new ContactService(_contactRepositoryMock.Object);
     }
 
-    [Fact]
-    public void GetSampleContacts_ShouldReturnListWithSampleContact()
-    {
-        // arrange
-        List<ContactModel> sampleContactList = [
-            new ContactModel
-            {
-                Id = 1,
-                Guid = new Guid("4b25d304-d5de-475f-8445-a960402bae65"),
-                FirstName = "Sample",
-                LastName = "Contact",
-                Email = "sample.contact@domain.com",
-                PhoneNumber = "0700123456",
-                StreetAddress = "Sample Street 1",
-                PostalCode = 12345,
-                City = "Sample City"
-            }
-        ];
-
-        // act
-        var result = _contactService.GetSampleContacts();
-
-        // assert
-        // Can't use Assert.Equal on lists directly since they are two separate lists with different references. Serialize to json and compare strings instead.
-        Assert.Equal(JsonSerializer.Serialize(result), JsonSerializer.Serialize(sampleContactList));
-    }
-
 
     //GetContacts Tests
     [Fact]
-    public void GetContacts_ShouldReturnListWithSampleContact_IfContactsFileDoesNotExist()
+    public void GetContacts_ShouldReturnEmptyList_IfContactsFileDoesNotExist()
     {
         // arrange
         _contactRepositoryMock
@@ -61,7 +34,7 @@ public class ContactService_Tests
 
         // assert
         // Can't use Assert.Equal on lists directly since they are two separate lists with different references. Serialize to json and compare strings instead.
-        Assert.Equal(JsonSerializer.Serialize(result), JsonSerializer.Serialize(_contactService.GetSampleContacts()));
+        Assert.Equal(result, []);
     }
 
 
@@ -132,17 +105,7 @@ public class ContactService_Tests
     public void CreateContact_ShouldReturnTrue_WhenContactIsCreatedSuccessfully()
     {
         // arrange
-        ContactModel sampleContact = _contactService.GetContacts().First();
-        ContactDto sampleDto = new()
-        {
-            FirstName = sampleContact.FirstName,
-            LastName = sampleContact.LastName,
-            Email = sampleContact.Email,
-            PhoneNumber = sampleContact.PhoneNumber,
-            StreetAddress = sampleContact.StreetAddress,
-            PostalCode = sampleContact.PostalCode,
-            City = sampleContact.City
-        };
+        ContactDto sampleDto = new();
 
         _contactRepositoryMock.Setup(cr => cr.SaveToFile(It.IsAny<List<ContactModel>>())).Returns(true);
 

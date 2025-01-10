@@ -16,26 +16,9 @@ public class ContactService(IContactRepository contactRepository) : IContactServ
 
     public IEnumerable<ContactModel> GetContacts()
     {
-        List<ContactModel> _contacts = _contactRepository.ReadFromFile() ?? GetSampleContacts();
+        List<ContactModel> _contacts = _contactRepository.ReadFromFile() ?? [];
         return _contacts;
     }
-
-
-    public List<ContactModel> GetSampleContacts() =>
-    [
-        new ContactModel
-        {
-            Id = 1,
-            Guid = new Guid("4b25d304-d5de-475f-8445-a960402bae65"),
-            FirstName = "Sample",
-            LastName = "Contact",
-            Email = "sample.contact@domain.com",
-            PhoneNumber = "0700123456",
-            StreetAddress = "Sample Street 1",
-            PostalCode = 12345,
-            City = "Sample City"
-        }
-    ];
 
 
     public bool CreateContact(ContactDto contactForm)

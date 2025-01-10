@@ -1,6 +1,7 @@
 ﻿using Business.Interfaces;
 using Business.Repositories;
 using Business.Services;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Presentation.Maui.ViewModels;
 using Presentation.Maui.Views;
@@ -32,11 +33,15 @@ public static class MauiProgram
         builder.Services.AddSingleton<EditContactView>();
 
 
-
 #if DEBUG
         builder.Logging.AddDebug();
 #endif
 
+
+        var cfs = builder.Build().Services.GetRequiredService<IContactFileService>();
+        cfs.CreateSampleContactsFile_IfContactsFileNotExist();
+
         return builder.Build();
+
     }
 }

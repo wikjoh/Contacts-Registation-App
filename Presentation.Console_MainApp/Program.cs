@@ -17,6 +17,9 @@ namespace Presentation.Console_MainApp
                 .AddTransient<MenuDialog>()
                 .BuildServiceProvider();
 
+            var cfs = serviceProvider.GetRequiredService<IContactFileService>();
+            cfs.CreateSampleContactsFile_IfContactsFileNotExist();
+
             var menuDialog = serviceProvider.GetRequiredService<MenuDialog>();
             menuDialog.ShowMainMenu();
         }
