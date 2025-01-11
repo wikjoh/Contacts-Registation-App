@@ -43,7 +43,7 @@ public class ContactFileService : FileService, IContactFileService
 
             if (!File.Exists(_cfilePath))
             {
-                string sampleContactJson = JsonSerializer.Serialize(sampleContact);
+                string sampleContactJson = JsonSerializer.Serialize(sampleContact, new JsonSerializerOptions { WriteIndented = true });
                 File.WriteAllText(_cfilePath, sampleContactJson);
             }
 
