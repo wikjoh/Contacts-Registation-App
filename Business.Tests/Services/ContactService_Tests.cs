@@ -33,7 +33,6 @@ public class ContactService_Tests
         var result = _contactService.GetContacts();
 
         // assert
-        // Can't use Assert.Equal on lists directly since they are two separate lists with different references. Serialize to json and compare strings instead.
         Assert.Equal(result, []);
     }
 
@@ -114,6 +113,7 @@ public class ContactService_Tests
 
         // assert
         Assert.True(result);
+        Assert.Single(_contactService.GetContactsFromMemory());
     }
 
 
@@ -147,7 +147,7 @@ public class ContactService_Tests
 
 
     [Fact]
-    public void CreateContact_ShouldInvokeContactsUpdated()
+    public void CreateContact_ShouldInvokeContactsUpdated_OnSuccess()
     {
         // arrange
         _contactRepositoryMock
@@ -179,6 +179,144 @@ public class ContactService_Tests
 
         // assert
         Assert.True(result);
+        Assert.Empty(_contactService.GetContacts());
     }
 
+
+    [Fact]
+    public void DeleteContact_ShouldReturnFalse_IfContactNotFound()
+    {
+        // arrange
+
+        // act
+        var result = _contactService.DeleteContact(1337);
+
+        // assert
+        Assert.False(result);
+    }
+
+
+    [Fact]
+    public void DeleteContact_ShouldInvokeContactsUpdated_OnSuccess()
+    {
+        // arrange
+        _contactService.CreateContact(new ContactDto()); // Adds contact to list with id 1
+        _contactRepositoryMock.Setup(cr => cr.SaveToFile(It.IsAny<List<ContactModel>>()))
+            .Returns(true); // Mock SaveToFile() in order for CreateContact() to work
+
+        bool contactsUpdatedInvoked = false;
+        _contactService.ContactsUpdated += (sender, args) => contactsUpdatedInvoked = true;
+
+        // act
+        var result = _contactService.DeleteContact(1);
+
+        // assert
+        Assert.True(contactsUpdatedInvoked);
+    }
+
+
+    [Fact]
+    public void DeleteContact_ShouldHandleException_AndReturnFalse()
+    {
+        // arrange
+        _contactService.CreateContact(new ContactDto()); // Adds contact to list with id 1
+        _contactRepositoryMock.Setup(cr => cr.SaveToFile(It.IsAny<List<ContactModel>>()))
+            .Returns(true); // Mock SaveToFile() in order for CreateContact() to work
+
+        _contactRepositoryMock
+            .Setup(cr => cr.SaveToFile(It.IsAny<List<ContactModel>>()))
+            .Throws(new Exception("Mocktest"));
+
+        // act
+        var result = _contactService.DeleteContact(1);
+
+        // assert
+        Assert.False(result);
+    }
+
+
+
+    // UpdateContact Tests
+    [Fact]
+    public void UpdateContact_ShouldUpdateContact_AndReturnTrue()
+    {
+        // arrange
+        _contactService.CreateContact(new ContactDto()); // Adds contact to list with id 1
+        _contactRepositoryMock.Setup(cr => cr.SaveToFile(It.IsAny<List<ContactModel>>()))
+            .Returns(true); // Mock SaveToFile() in order for CreateContact() to work
+
+        // act
+        var result = _contactService.UpdateContact(new ContactModel { Id = 1, FirstName = "Mocktest" });
+
+        // assert
+        Assert.True(result);
+        Assert.Equal("Mocktest", _contactService.GetContactsFromMemory().First().FirstName);
+    }
+
+
+    [Fact]
+    public void UpdateContact_ShouldReturnFalse_IfContactNotFound()
+    {
+        // arrange
+        ContactModel contact = new ContactModel { Id = 1 };
+
+        // act
+        var result = _contactService.UpdateContact(contact);
+
+        // assert
+        Assert.False(result);
+    }
+
+
+    [Fact]
+    public void UpdateContact_ShouldReturnFalse_IfParameterIsNull()
+    {
+        // arrange
+
+        // act
+        var result = _contactService.UpdateContact(null!);
+
+        // assert
+        Assert.False(result);
+    }
+
+
+    [Fact]
+    public void UpdateContact_ShouldInvokeContactsUpdated_OnSuccess()
+    {
+        // arrange
+        _contactService.CreateContact(new ContactDto()); // Adds contact to list with id 1
+        _contactRepositoryMock.Setup(cr => cr.SaveToFile(It.IsAny<List<ContactModel>>()))
+            .Returns(true); // Mock SaveToFile() in order for CreateContact() to work
+
+        bool contactsUpdatedInvoked = false;
+        _contactService.ContactsUpdated += (sender, args) => contactsUpdatedInvoked = true;
+
+        // act
+        var result = _contactService.UpdateContact(new ContactModel { Id = 1, FirstName = "Mocktest" });
+
+
+        // assert
+        Assert.True(contactsUpdatedInvoked);
+    }
+
+
+    [Fact]
+    public void UpdateContact_ShouldHandleException_AndReturnFalse()
+    {
+        // arrange
+        _contactService.CreateContact(new ContactDto()); // Adds contact to list with id 1
+        _contactRepositoryMock.Setup(cr => cr.SaveToFile(It.IsAny<List<ContactModel>>()))
+            .Returns(true); // Mock SaveToFile() in order for CreateContact() to work
+
+        _contactRepositoryMock
+            .Setup(cr => cr.SaveToFile(It.IsAny<List<ContactModel>>()))
+            .Throws(new Exception("Mocktest"));
+
+        // act
+        var result = _contactService.UpdateContact(new ContactModel { Id = 1, FirstName = "Mocktest" });
+
+        // assert
+        Assert.False(result);
+    }
 }

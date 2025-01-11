@@ -21,6 +21,10 @@ public class ContactService(IContactRepository contactRepository) : IContactServ
     }
 
 
+    // Method for retrieving modified _contacts list from memory, for mocking tests
+    public List<ContactModel> GetContactsFromMemory() => _contacts;
+
+
     public bool CreateContact(ContactDto contactForm)
     {
         try
