@@ -22,8 +22,21 @@ public partial class EditContactViewModel : AddEditContactBaseViewModel, IQueryA
     [RelayCommand]
     public async Task UpdateContact()
     {
-        _contactService.UpdateContact(ContactEdit);
-        await Shell.Current.GoToAsync("//ListContactsView");
+        if (!IsFirstNameErrorVisible
+            &&  !IsLastNameErrorVisible
+            && !IsEmailErrorVisible
+            && !IsPhoneNumberErrorVisible
+            && !IsStreetAddressErrorVisible
+            && !IsPostalCodeErrorVisible
+            && !IsCityErrorVisible)
+        {
+            _contactService.UpdateContact(ContactEdit);
+            await Shell.Current.GoToAsync("//ListContactsView");
+        }
+        else
+        {
+            await Application.Current!.Windows[0].Page!.DisplayAlert("Error", "Form is empty or contains errors.", "OK");
+        }
     }
 
 

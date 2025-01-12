@@ -17,7 +17,7 @@ public abstract partial class AddEditContactBaseViewModel : ObservableObject
     }
 
     [ObservableProperty]
-    public bool isFirstNameErrorVisible = false;
+    public bool isFirstNameErrorVisible = true;
 
 
     [ObservableProperty]
@@ -28,7 +28,7 @@ public abstract partial class AddEditContactBaseViewModel : ObservableObject
     }
 
     [ObservableProperty]
-    public bool isLastNameErrorVisible = false;
+    public bool isLastNameErrorVisible = true;
 
 
     [ObservableProperty]
@@ -39,7 +39,7 @@ public abstract partial class AddEditContactBaseViewModel : ObservableObject
     }
 
     [ObservableProperty]
-    public bool isEmailErrorVisible = false;
+    public bool isEmailErrorVisible = true;
 
 
     [ObservableProperty]
@@ -50,7 +50,7 @@ public abstract partial class AddEditContactBaseViewModel : ObservableObject
     }
 
     [ObservableProperty]
-    public bool isPhoneNumberErrorVisible = false;
+    public bool isPhoneNumberErrorVisible = true;
 
 
     [ObservableProperty]
@@ -61,7 +61,7 @@ public abstract partial class AddEditContactBaseViewModel : ObservableObject
     }
 
     [ObservableProperty]
-    public bool isStreetAddressErrorVisible = false;
+    public bool isStreetAddressErrorVisible = true;
 
 
     [ObservableProperty]
@@ -72,7 +72,7 @@ public abstract partial class AddEditContactBaseViewModel : ObservableObject
     }
 
     [ObservableProperty]
-    public bool isPostalCodeErrorVisible = false;
+    public bool isPostalCodeErrorVisible = true;
 
 
     [ObservableProperty]
@@ -83,7 +83,7 @@ public abstract partial class AddEditContactBaseViewModel : ObservableObject
     }
 
     [ObservableProperty]
-    public bool isCityErrorVisible = false;
+    public bool isCityErrorVisible = true;
 
 
     protected virtual ContactModel GetContactEdit()

@@ -22,17 +22,27 @@ public partial class AddContactViewModel : AddEditContactBaseViewModel
     [RelayCommand]
     public async Task AddContact()
     {
-        if (ContactForm != null && !string.IsNullOrWhiteSpace(ContactForm.FirstName))
+        if (ContactForm != null
+            && !IsFirstNameErrorVisible
+            && !IsLastNameErrorVisible
+            && !IsEmailErrorVisible
+            && !IsPhoneNumberErrorVisible
+            && !IsStreetAddressErrorVisible
+            && !IsPostalCodeErrorVisible
+            && !IsCityErrorVisible)
         {
             bool addSuccess = _contactService.CreateContact(ContactForm);
             if (addSuccess)
             {
-                
                 ContactForm = new();
             }
-        }
 
-        await Shell.Current.GoToAsync("//ListContactsView");
+            await Shell.Current.GoToAsync("//ListContactsView");
+        }
+        else
+        {
+            await Application.Current!.Windows[0].Page!.DisplayAlert("Error", "Form is empty or contains errors.", "OK");
+        }
     }
 
 
