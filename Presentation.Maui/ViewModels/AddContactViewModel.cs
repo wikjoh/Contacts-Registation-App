@@ -1,11 +1,12 @@
 ﻿using Business.Dtos;
 using Business.Interfaces;
+using Business.Models;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 
 namespace Presentation.Maui.ViewModels;
 
-public partial class AddContactViewModel : ObservableObject
+public partial class AddContactViewModel : AddEditContactBaseViewModel
 {
     private readonly IContactService _contactService;
 
@@ -33,4 +34,7 @@ public partial class AddContactViewModel : ObservableObject
 
         await Shell.Current.GoToAsync("//ListContactsView");
     }
+
+
+    protected override ContactDto GetContactForm() => ContactForm;
 }

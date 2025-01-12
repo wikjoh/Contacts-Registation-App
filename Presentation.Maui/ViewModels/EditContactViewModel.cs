@@ -3,9 +3,10 @@ using Business.Models;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 
+
 namespace Presentation.Maui.ViewModels;
 
-public partial class EditContactViewModel : ObservableObject, IQueryAttributable
+public partial class EditContactViewModel : AddEditContactBaseViewModel, IQueryAttributable
 {
     private readonly IContactService _contactService;
 
@@ -24,6 +25,10 @@ public partial class EditContactViewModel : ObservableObject, IQueryAttributable
         _contactService.UpdateContact(ContactEdit);
         await Shell.Current.GoToAsync("//ListContactsView");
     }
+
+
+    protected override ContactModel GetContactEdit() => ContactEdit;
+
 
     public void ApplyQueryAttributes(IDictionary<string, object> query)
     {

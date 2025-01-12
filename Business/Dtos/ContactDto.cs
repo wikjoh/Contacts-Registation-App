@@ -13,7 +13,7 @@ public class ContactDto
     [RegularExpression(@"^[^@\s]+@[^@\s]+\.[^@\s]{2,}$", ErrorMessage = "Email must be in format mail@domain.com")]
     public string Email { get; set; } = null!;
 
-    [RegularExpression(@"^\d{5,15}$", ErrorMessage = "Phone number must be at least 5 digits and at most 15 digits long")]
+    [RegularExpression(@"^\d{5,15}$", ErrorMessage = "Phone number must be at least 5 digits and at most 15 digits")]
     public string PhoneNumber { get; set; } = null!;
 
     [MinLength(2, ErrorMessage = "Street address must be at least 2 characters")]

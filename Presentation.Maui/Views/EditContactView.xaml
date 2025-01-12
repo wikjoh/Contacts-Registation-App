@@ -9,25 +9,46 @@
 
     <VerticalStackLayout Margin="20">
         <Label Text="First Name" Margin="0, 0, 0, 5" />
-        <Entry Text="{Binding ContactEdit.FirstName}" />
+        <Entry Text="{Binding ContactEdit.FirstName}" TextChanged="OnFirstNameChanged" />
+        <HorizontalStackLayout MinimumHeightRequest="20">
+            <Label Text="{Binding FirstNameError}" TextColor="Red" IsVisible="{Binding IsFirstNameErrorVisible}" />
+        </HorizontalStackLayout>
 
-        <Label Text="Last Name" Margin="0, 20, 0, 5" />
-        <Entry Text="{Binding ContactEdit.LastName}" />
+        <Label Text="Last Name" Margin="0, 0, 0, 5" />
+        <Entry Text="{Binding ContactEdit.LastName}" TextChanged="OnLastNameChanged" />
+        <HorizontalStackLayout MinimumHeightRequest="20">
+            <Label Text="{Binding LastNameError}" TextColor="Red" IsVisible="{Binding IsLastNameErrorVisible}" />
+        </HorizontalStackLayout>
 
-        <Label Text="Email" Margin="0, 20, 0, 5" />
-        <Entry Text="{Binding ContactEdit.Email}" />
+        <Label Text="Email" Margin="0, 0, 0, 5" />
+        <Entry Text="{Binding ContactEdit.Email}" TextChanged="OnEmailChanged" />
+        <HorizontalStackLayout MinimumHeightRequest="20">
+            <Label Text="{Binding EmailError}" TextColor="Red" IsVisible="{Binding IsEmailErrorVisible}" />
+        </HorizontalStackLayout>
 
-        <Label Text="Phonenumber" Margin="0, 20, 0, 5" />
-        <Entry Text="{Binding ContactEdit.PhoneNumber}" />
+        <Label Text="Phonenumber" Margin="0, 0, 0, 5" />
+        <Entry Text="{Binding ContactEdit.PhoneNumber}" Keyboard="Numeric" TextChanged="OnPhoneNumberChanged" />
+        <HorizontalStackLayout MinimumHeightRequest="20">
+            <Label Text="{Binding PhoneNumberError}" TextColor="Red" IsVisible="{Binding IsPhoneNumberErrorVisible}" />
+        </HorizontalStackLayout>
 
-        <Label Text="Street Address" Margin="0, 20, 0, 5" />
-        <Entry Text="{Binding ContactEdit.StreetAddress}" />
+        <Label Text="Street Address" Margin="0, 0, 0, 5" />
+        <Entry Text="{Binding ContactEdit.StreetAddress}" TextChanged="OnStreetAddressChanged" />
+        <HorizontalStackLayout MinimumHeightRequest="20">
+            <Label Text="{Binding StreetAddressError}" TextColor="Red" IsVisible="{Binding IsStreetAddressErrorVisible}" />
+        </HorizontalStackLayout>
 
-        <Label Text="Postal Code" Margin="0, 20, 0, 5" />
-        <Entry Text="{Binding ContactEdit.PostalCode}" />
+        <Label Text="Postal Code" Margin="0, 0, 0, 5" />
+        <Entry Text="{Binding ContactEdit.PostalCode}" Keyboard="Numeric" TextChanged="OnPostalCodeChanged" />
+        <HorizontalStackLayout MinimumHeightRequest="20">
+            <Label Text="{Binding PostalCodeError}" TextColor="Red" IsVisible="{Binding IsPostalCodeErrorVisible}" />
+        </HorizontalStackLayout>
 
-        <Label Text="City" Margin="0, 20, 0, 5" />
-        <Entry Text="{Binding ContactEdit.City}" />
+        <Label Text="City" Margin="0, 0, 0, 5" />
+        <Entry Text="{Binding ContactEdit.City}" TextChanged="OnCityChanged" />
+        <HorizontalStackLayout MinimumHeightRequest="20">
+            <Label Text="{Binding CityError}" TextColor="Red" IsVisible="{Binding IsCityErrorVisible}" />
+        </HorizontalStackLayout>
 
         <Button Command="{Binding UpdateContactCommand}" Text="Update Contact" Margin="0,40,0,20" Padding="0,10" />
     </VerticalStackLayout>
