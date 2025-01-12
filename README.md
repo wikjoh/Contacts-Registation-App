@@ -12,5 +12,5 @@
     <br />
   </p>
 
-  <img src="https://raw.githubusercontent.com/wikjoh/Contacts-Registation-App/refs/heads/master/Showcase.jpg" alt="Project screenshot">
+  <img src="https://raw.githubusercontent.com/wikjoh/Contacts-Registration-App/refs/heads/master/Showcase.jpg" alt="Project screenshot">
 </div>
